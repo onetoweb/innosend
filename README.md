@@ -10,6 +10,10 @@ composer require onetoweb/innosend
 
 See [Documentation](docs/index.rst)
 
+## API Documentation
+
+See [API Documentation](https://docs.innosend.eu/integration)
+
 ## Change Log
 
 See [Change Log](CHANGELOG.md)
