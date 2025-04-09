@@ -101,12 +101,10 @@ class Client
         // build options
         $options = [
             RequestOptions::HTTP_ERRORS => false,
-            /*
             RequestOptions::HEADERS => [
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
             ],
-            */
             RequestOptions::AUTH => [
                 $this->apiKey,
                 $this->apiSecret
@@ -115,16 +113,8 @@ class Client
             RequestOptions::QUERY => $query,
         ];
         
-        dump([
-            'method' => $method,
-            'url' => $this->getUrl($endpoint),
-            'options' => $options,
-        ]);
-        
         // make request
         $response = (new GuzzleCLient())->request($method, $this->getUrl($endpoint), $options);
-        
-        dump($response);
         
         // decode json
         $json = json_decode($response->getBody()->getContents(), true);
