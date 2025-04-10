@@ -16,7 +16,7 @@ Get configuration
 
 .. code-block:: php
     
-    $result = $client->configuration->get()
+    $result = $client->configuration->get();
 
 
 `Back to top <#top>`_
