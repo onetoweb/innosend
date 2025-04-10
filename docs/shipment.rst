@@ -92,6 +92,10 @@ Create shipment
     ];
     
     $result = $client->shipment->create($shipment);
+    
+    // get label from result
+    $filename = '/path/to/file.pdf';
+    file_put_contents($filename, base64_decode($result['documents'][0]['pdf']));
 
 
 `Back to top <#top>`_
