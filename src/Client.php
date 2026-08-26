@@ -155,9 +155,20 @@ class Client
         // get contents
         $contents = $response->getBody()->getContents();
         
-        // decode json
-        $json = json_decode($contents, true);
+        // encode / decode content
+        $result = [];
+        if (str_starts_with($response->getHeaderLine('Content-Type'), 'application/json')) {
+            
+            // decode json
+            $result = json_decode($contents, true);
+            
+        } elseif (str_starts_with($response->getHeaderLine('Content-Type'), 'application/octet-stream')) {
+            
+            $result = [
+                'data' => base64_encode($contents)
+            ];
+        }
         
-        return $json;
+        return $result;
     }
 }
