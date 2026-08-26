@@ -13,6 +13,7 @@ System
 
 Health check
 ````````````
+Health check endpoint to verify the API is running. Returns system status and connected services health.
 
 .. code-block:: php
     
