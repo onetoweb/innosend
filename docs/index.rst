@@ -32,3 +32,4 @@ Examples
 * `System <system.rst>`_
 * `Order <order.rst>`_
 * `Shipment <shipment.rst>`_
+* `Service <service.rst>`_
