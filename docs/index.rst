@@ -30,5 +30,3 @@ Setup
 Examples
 ========
 
-* `Configuration <configuration.rst>`_
-* `Shipment <shipment.rst>`_
