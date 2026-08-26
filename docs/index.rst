@@ -30,3 +30,4 @@ Examples
 ========
 
 * `System <system.rst>`_
+* `Order <order.rst>`_
