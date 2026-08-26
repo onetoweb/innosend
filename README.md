@@ -1,4 +1,4 @@
-# Innosend Api Client
+# Innosend API V2 Client
 
 ## Installing
 
