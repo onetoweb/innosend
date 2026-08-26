@@ -12,7 +12,7 @@ See [Documentation](docs/index.rst)
 
 ## Api Documentation
 
-See [Api Documentation](https://docs.innosend.eu/integration)
+See [Api Documentation](https://api.innosend.com/api/v2/docs)
 
 ## Change Log
 
