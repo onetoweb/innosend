@@ -13,6 +13,11 @@ use GuzzleHttp\Client as GuzzleCLient;
 class Client
 {
     /**
+     * Version.
+     */
+    public const VERSION = 2;
+    
+    /**
      * Base href
      */
     public const BASE_HREF = 'https://api.innosend.eu';
@@ -26,12 +31,7 @@ class Client
     /**
      * @var string
      */
-    private $apiKey;
-    
-    /**
-     * @var string
-     */
-    private $apiSecret;
+    private $token;
     
     /**
      * @var int
@@ -39,13 +39,12 @@ class Client
     private $version;
     
     /**
-     * @param string $apiKey
-     * @param string $apiSecret
+     * @param string $token
+     * @param int $version = self::VERSION
      */
-    public function __construct(string $apiKey, string $apiSecret, int $version = 2)
+    public function __construct(string $token, int $version = self::VERSION)
     {
-        $this->apiKey = $apiKey;
-        $this->apiSecret = $apiSecret;
+        $this->token = $token;
         $this->version = $version;
         
         // load endpoints
@@ -116,19 +115,19 @@ class Client
         $options = [
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::HEADERS => [
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-            ],
-            RequestOptions::AUTH => [
-                $this->apiKey,
-                $this->apiSecret
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->token}",
             ],
             RequestOptions::JSON => $data,
             RequestOptions::QUERY => $query,
         ];
         
+        // get url
+        $url = $this->getUrl($endpoint);
+        
         // make request
-        $response = (new GuzzleCLient())->request($method, $this->getUrl($endpoint), $options);
+        $response = (new GuzzleCLient())->request($method, $url, $options);
         
         // get contents
         $contents = $response->getBody()->getContents();
