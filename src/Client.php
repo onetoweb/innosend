@@ -34,13 +34,19 @@ class Client
     private $apiSecret;
     
     /**
+     * @var int
+     */
+    private $version;
+    
+    /**
      * @param string $apiKey
      * @param string $apiSecret
      */
-    public function __construct(string $apiKey, string $apiSecret)
+    public function __construct(string $apiKey, string $apiSecret, int $version = 2)
     {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
+        $this->version = $version;
         
         // load endpoints
         $this->loadEndpoints();
@@ -57,13 +63,21 @@ class Client
     }
     
     /**
+     * @return string
+     */
+    public function getBaseHref(): string
+    {
+        return self::BASE_HREF . "/api/v{$this->version}";
+    }
+    
+    /**
      * @param string $endpoint
      * 
      * @return string
      */
     public function getUrl(string $endpoint): string
     {
-        return self::BASE_HREF . '/' . ltrim($endpoint, '/');
+        return $this->getBaseHref() . '/' . ltrim($endpoint, '/');
     }
     
     /**
@@ -116,8 +130,11 @@ class Client
         // make request
         $response = (new GuzzleCLient())->request($method, $this->getUrl($endpoint), $options);
         
+        // get contents
+        $contents = $response->getBody()->getContents();
+        
         // decode json
-        $json = json_decode($response->getBody()->getContents(), true);
+        $json = json_decode($contents, true);
         
         return $json;
     }
