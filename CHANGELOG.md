@@ -11,3 +11,7 @@
 ## [2.0.1] - 2026-09-07
 
  - Add SensitiveParameter attribute to token param
+
+## [2.0.2] - 2026-09-07
+
+ - SensitiveParameter attribute on a new line
