@@ -26,7 +26,7 @@ class Order extends AbstractEndpoint
      */
     public function create(array $data): array
     {
-        return $this->client->post('/orders', $data);
+        return $this->client->post('/orders/', $data);
     }
     
     /**
