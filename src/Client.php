@@ -162,7 +162,7 @@ class Client
             // decode json
             $result = json_decode($contents, true);
             
-        } elseif (str_starts_with($response->getHeaderLine('Content-Type'), 'application/octet-stream')) {
+        } elseif (str_starts_with($response->getHeaderLine('Content-Type'), 'application/pdf')) {
             
             $result = [
                 'data' => base64_encode($contents)
