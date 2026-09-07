@@ -38,8 +38,8 @@ class Service extends AbstractEndpoint
     /**
      * @return array
      */
-    public function searchPickupPoints(): array
+    public function searchPickupPoints(array $query): array
     {
-        return $this->client->get('/services/pickup-points');
+        return $this->client->get('/services/pickup-points', $query);
     }
 }
