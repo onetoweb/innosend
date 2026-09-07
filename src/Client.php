@@ -44,8 +44,10 @@ class Client
      * @param string $token
      * @param int $version = self::VERSION
      */
-    public function __construct(string $token, int $version = self::VERSION)
-    {
+    public function __construct(
+        #[\SensitiveParameter] string $token,
+        int $version = self::VERSION
+    ) {
         $this->token = $token;
         $this->version = $version;
         
