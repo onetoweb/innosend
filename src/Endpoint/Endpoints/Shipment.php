@@ -24,7 +24,7 @@ class Shipment extends AbstractEndpoint
      * 
      * @return array
      */
-    public function bulkCreate(array $orderUuids): array
+    public function createSync(array $orderUuids): array
     {
         $data = [
             'order_uuids' => $orderUuids
@@ -34,14 +34,14 @@ class Shipment extends AbstractEndpoint
     }
     
     /**
-     * @param string $orderUuid
+     * @param array $orderUuids
      * 
      * @return array
      */
-    public function create(string $orderUuid): array
+    public function createAsync(array $orderUuids): array
     {
         $data = [
-            'order_uuid' => $orderUuid
+            'order_uuids' => $orderUuids
         ];
         
         return $this->client->post('/shipments/create', $data);

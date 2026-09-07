@@ -48,17 +48,19 @@ Create shipments for multiple orders.
     $orderUuids = [
         '3fa85f64-5717-4562-b3fc-2c963f66afa6'
     ];
-    $result = $client->shipment->bulkCreate($orderUuids);
+    $result = $client->shipment->createSync($orderUuids);
 
 
-Create shipments (synchronous)
-``````````````````````````````
+Create shipments (asynchronous)
+```````````````````````````````
 Create shipments for one or more orders.
 
 .. code-block:: php
     
-    $orderUuid = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-    $result = $client->shipment->create($orderUuid);
+    $orderUuids = [
+        '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+    ];
+    $result = $client->shipment->createAsync($orderUuids);
 
 
 Get shipment creation progress
@@ -102,10 +104,10 @@ Download the export documents (commercial invoices) of multiple shipments, merge
 
 .. code-block:: php
     
-    $orderUuids = [
+    $shipmentUuids = [
         '3fa85f64-5717-4562-b3fc-2c963f66afa6'
     ];
-    $result = $client->shipment->exportDocs($orderUuids);
+    $result = $client->shipment->exportDocs($shipmentUuids);
 
 
 Get a shipment
