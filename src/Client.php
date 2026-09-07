@@ -13,6 +13,11 @@ use GuzzleHttp\Client as GuzzleCLient;
 class Client
 {
     /**
+     * Version.
+     */
+    public const VERSION = 2;
+    
+    /**
      * Base href
      */
     public const BASE_HREF = 'https://api.innosend.eu';
@@ -22,25 +27,27 @@ class Client
      */
     public const METHOD_GET = 'GET';
     public const METHOD_POST = 'POST';
+    public const METHOD_PATCH = 'PATCH';
+    public const METHOD_DELETE = 'DELETE';
     
     /**
      * @var string
      */
-    private $apiKey;
+    private $token;
     
     /**
-     * @var string
+     * @var int
      */
-    private $apiSecret;
+    private $version;
     
     /**
-     * @param string $apiKey
-     * @param string $apiSecret
+     * @param string $token
+     * @param int $version = self::VERSION
      */
-    public function __construct(string $apiKey, string $apiSecret)
+    public function __construct(string $token, int $version = self::VERSION)
     {
-        $this->apiKey = $apiKey;
-        $this->apiSecret = $apiSecret;
+        $this->token = $token;
+        $this->version = $version;
         
         // load endpoints
         $this->loadEndpoints();
@@ -57,13 +64,21 @@ class Client
     }
     
     /**
+     * @return string
+     */
+    public function getBaseHref(): string
+    {
+        return self::BASE_HREF . "/api/v{$this->version}";
+    }
+    
+    /**
      * @param string $endpoint
      * 
      * @return string
      */
     public function getUrl(string $endpoint): string
     {
-        return self::BASE_HREF . '/' . ltrim($endpoint, '/');
+        return $this->getBaseHref() . '/' . ltrim($endpoint, '/');
     }
     
     /**
@@ -80,12 +95,34 @@ class Client
     /**
      * @param string $endpoint
      * @param array $data = []
+     * @param array $query = []
      * 
      * @return array
      */
-    public function post(string $endpoint, array $data = []): array
+    public function post(string $endpoint, array $data = [], array $query = []): array
     {
-        return $this->request(self::METHOD_POST, $endpoint, $data);
+        return $this->request(self::METHOD_POST, $endpoint, $data, $query);
+    }
+    
+    /**
+     * @param string $endpoint
+     * @param array $data = []
+     * 
+     * @return array
+     */
+    public function patch(string $endpoint, array $data = []): array
+    {
+        return $this->request(self::METHOD_PATCH, $endpoint, $data);
+    }
+    
+    /**
+     * @param string $endpoint
+     * 
+     * @return array
+     */
+    public function delete(string $endpoint): array
+    {
+        return $this->request(self::METHOD_DELETE, $endpoint);
     }
     
     /**
@@ -102,23 +139,37 @@ class Client
         $options = [
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::HEADERS => [
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-            ],
-            RequestOptions::AUTH => [
-                $this->apiKey,
-                $this->apiSecret
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->token}",
             ],
             RequestOptions::JSON => $data,
             RequestOptions::QUERY => $query,
         ];
         
+        // get url
+        $url = $this->getUrl($endpoint);
+        
         // make request
-        $response = (new GuzzleCLient())->request($method, $this->getUrl($endpoint), $options);
+        $response = (new GuzzleCLient())->request($method, $url, $options);
         
-        // decode json
-        $json = json_decode($response->getBody()->getContents(), true);
+        // get contents
+        $contents = $response->getBody()->getContents();
         
-        return $json;
+        // encode / decode content
+        $result = [];
+        if (str_starts_with($response->getHeaderLine('Content-Type'), 'application/json')) {
+            
+            // decode json
+            $result = json_decode($contents, true);
+            
+        } elseif (str_starts_with($response->getHeaderLine('Content-Type'), 'application/pdf')) {
+            
+            $result = [
+                'data' => base64_encode($contents)
+            ];
+        }
+        
+        return $result;
     }
 }

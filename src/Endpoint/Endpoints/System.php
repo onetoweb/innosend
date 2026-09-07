@@ -7,13 +7,13 @@ use Onetoweb\Innosend\Endpoint\AbstractEndpoint;
 /**
  * Configuration Endpoint.
  */
-class Configuration extends AbstractEndpoint
+class System extends AbstractEndpoint
 {
     /**
      * @return array
      */
-    public function get(): array
+    public function health(): array
     {
-        return $this->client->get('/integration/webshopapi/configuration');
+        return $this->client->get('/health');
     }
 }

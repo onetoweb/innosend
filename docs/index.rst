@@ -19,16 +19,18 @@ Setup
     use Onetoweb\Innosend\Client;
     
     // param
-    $apiKey = '{api_key}';
-    $apiSecret = '{api_secret}';
+    $token = '{token}';
     
     // setup client
-    $client = new Client($apiKey, $apiSecret);
+    $client = new Client($token);
 
 
 ========
 Examples
 ========
 
-* `Configuration <configuration.rst>`_
+* `System <system.rst>`_
+* `Order <order.rst>`_
 * `Shipment <shipment.rst>`_
+* `Service <service.rst>`_
+* `Tracking <tracking.rst>`_
