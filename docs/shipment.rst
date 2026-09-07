@@ -90,6 +90,10 @@ Download the shipping labels of multiple shipments, merged into one PDF.
     ];
     
     $result = $client->shipment->labels($data);
+    
+    // decode and store labels
+    $filename = '/path/to/label.pdf';
+    file_put_contents($filename, base64_decode($result['data']));
 
 
 Download export documents for multiple shipments

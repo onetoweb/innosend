@@ -68,14 +68,14 @@ class Shipment extends AbstractEndpoint
     }
     
     /**
-     * @param array $orderUuids
+     * @param array $shipmentUuids
      * 
      * @return array
      */
-    public function exportDocs(array $orderUuids): array
+    public function exportDocs(array $shipmentUuids): array
     {
         $data = [
-            'order_uuids' => $orderUuids
+            'shipment_uuids' => $shipmentUuids
         ];
         
         return $this->client->post('/shipments/export-docs', $data);
