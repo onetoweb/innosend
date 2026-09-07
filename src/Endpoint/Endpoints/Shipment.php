@@ -118,6 +118,16 @@ class Shipment extends AbstractEndpoint
     
     /**
      * @param string $shipmentUuid
+     * 
+     * @return array
+     */
+    public function packages(string $shipmentUuid): array
+    {
+        return $this->client->get("/shipments/$shipmentUuid/packages");
+    }
+    
+    /**
+     * @param string $shipmentUuid
      * @param string $trackingCode
      * 
      * @return array
