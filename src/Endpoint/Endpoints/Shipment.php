@@ -103,12 +103,17 @@ class Shipment extends AbstractEndpoint
     
     /**
      * @param string $uuid
+     * @param bool $sendReturnMail = false
      * 
      * @return array
      */
-    public function return(string $uuid): array
+    public function return(string $uuid, bool $sendReturnMail = false): array
     {
-        return $this->client->post("/shipments/$uuid/return");
+        $query = [
+            'send_return_mail' => $sendReturnMail
+        ];
+        
+        return $this->client->post("/shipments/$uuid/return", [], $query);
     }
     
     /**

@@ -137,7 +137,11 @@ Create a return shipment for an existing shipment. Returns the new label PDF.
 .. code-block:: php
     
     $uuid = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-    $result = $client->shipment->return($uuid);
+    
+    // optional
+    $sendReturnMail = false;
+    
+    $result = $client->shipment->return($uuid, $sendReturnMail);
 
 
 List packages of a shipment
