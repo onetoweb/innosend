@@ -3,6 +3,7 @@
 namespace Onetoweb\Innosend;
 
 use Onetoweb\Innosend\Endpoint\Endpoints;
+use Onetoweb\Innosend\Config\Method;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Client as GuzzleCLient;
 
@@ -23,35 +24,16 @@ class Client
     public const BASE_HREF = 'https://api.innosend.eu';
     
     /**
-     * Methods.
-     */
-    public const METHOD_GET = 'GET';
-    public const METHOD_POST = 'POST';
-    public const METHOD_PATCH = 'PATCH';
-    public const METHOD_DELETE = 'DELETE';
-    
-    /**
-     * @var string
-     */
-    private $token;
-    
-    /**
-     * @var int
-     */
-    private $version;
-    
-    /**
      * @param string $token
      * @param int $version = self::VERSION
      */
     public function __construct(
-        #[\SensitiveParameter]
-        string $token,
-        int $version = self::VERSION
-    ) {
-        $this->token = $token;
-        $this->version = $version;
         
+        #[\SensitiveParameter]
+        private string $token,
+        
+        private int $version = self::VERSION
+    ) {
         // load endpoints
         $this->loadEndpoints();
     }
@@ -92,7 +74,7 @@ class Client
      */
     public function get(string $endpoint, array $query = []): array
     {
-        return $this->request(self::METHOD_GET, $endpoint, [], $query);
+        return $this->request(Method::GET, $endpoint, [], $query);
     }
     
     /**
@@ -104,7 +86,7 @@ class Client
      */
     public function post(string $endpoint, array $data = [], array $query = []): array
     {
-        return $this->request(self::METHOD_POST, $endpoint, $data, $query);
+        return $this->request(Method::POST, $endpoint, $data, $query);
     }
     
     /**
@@ -115,7 +97,7 @@ class Client
      */
     public function patch(string $endpoint, array $data = []): array
     {
-        return $this->request(self::METHOD_PATCH, $endpoint, $data);
+        return $this->request(Method::PATCH, $endpoint, $data);
     }
     
     /**
@@ -125,18 +107,18 @@ class Client
      */
     public function delete(string $endpoint): array
     {
-        return $this->request(self::METHOD_DELETE, $endpoint);
+        return $this->request(Method::DELETE, $endpoint);
     }
     
     /**
-     * @param string $method
+     * @param Method $method
      * @param string $endpoint
      * @param array $data = []
      * @param array $query = []
      * 
      * @return array
      */
-    public function request(string $method, string $endpoint, array $data = [], array $query = []): array
+    public function request(Method $method, string $endpoint, array $data = [], array $query = []): array
     {
         // build options
         $options = [
@@ -154,7 +136,7 @@ class Client
         $url = $this->getUrl($endpoint);
         
         // make request
-        $response = (new GuzzleCLient())->request($method, $url, $options);
+        $response = (new GuzzleCLient())->request($method->value, $url, $options);
         
         // get contents
         $contents = $response->getBody()->getContents();
