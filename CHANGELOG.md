@@ -16,7 +16,7 @@
 
  - SensitiveParameter attribute on a new line
 
-## [2.1.0] - 2026-09-17
+## [3.0.0] - 2026-09-17
 
- - Require php 8 or higher
+ - Require php 8.1 or higher
  - Drop support for guzzle 6
